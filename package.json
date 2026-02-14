@@ -1,0 +1,44 @@
+{
+  "name": "prediction-market",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "typecheck": "turbo run typecheck",
+    "prepare": "husky install",
+    "contracts:compile": "turbo run compile --filter=@prediction-market/contracts",
+    "contracts:test": "turbo run test --filter=@prediction-market/contracts",
+    "contracts:deploy": "turbo run deploy --filter=@prediction-market/contracts",
+    "api:dev": "turbo run dev --filter=@prediction-market/api",
+    "web:dev": "turbo run dev --filter=@prediction-market/web"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.0",
+    "rimraf": "^5.0.5",
+    "turbo": "^1.12.0",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
