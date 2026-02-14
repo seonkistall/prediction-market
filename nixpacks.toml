@@ -5,7 +5,7 @@ nixPkgs = ["nodejs_20", "openssl"]
 cmds = ["npm install -g corepack@0.24.1 && corepack enable && pnpm install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm --filter @prediction-market/api build"]
+cmds = ["cd apps/api && pnpm build"]
 
 [start]
-cmd = "node apps/api/dist/main.js"
+cmd = "cd apps/api && node dist/main.js"
