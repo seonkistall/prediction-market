@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Market, MarketType, AssetCategory } from '../entities/market.entity';
+import { User, UserRole } from '../entities/user.entity';
 
 const markets = [
   // Crypto - 15min markets
@@ -164,5 +165,35 @@ export async function seedMarkets(dataSource: DataSource): Promise<void> {
     }
   }
 
-  console.log('\n🎉 Seed completed!');
+  console.log('\n🎉 Market seed completed!');
+}
+
+export async function seedAdminUser(dataSource: DataSource): Promise<void> {
+  const userRepository = dataSource.getRepository(User);
+
+  // Test admin wallet address (for development only)
+  const adminWallet = '0x0000000000000000000000000000000000000001';
+
+  const existing = await userRepository.findOne({
+    where: { walletAddress: adminWallet },
+  });
+
+  if (!existing) {
+    const admin = userRepository.create({
+      walletAddress: adminWallet,
+      nonce: 'admin-test-nonce',
+      role: UserRole.ADMIN,
+      balance: '100',
+    });
+    await userRepository.save(admin);
+    console.log(`✅ Created admin user: ${adminWallet}`);
+  } else if (existing.role !== UserRole.ADMIN) {
+    existing.role = UserRole.ADMIN;
+    await userRepository.save(existing);
+    console.log(`✅ Updated user to admin: ${adminWallet}`);
+  } else {
+    console.log(`⏭️  Admin user already exists: ${adminWallet}`);
+  }
+
+  console.log('\n🎉 Admin seed completed!');
 }
