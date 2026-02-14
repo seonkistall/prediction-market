@@ -1,15 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { RedisModule } from './common/redis/redis.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MarketsModule } from './modules/markets/markets.module';
 import { BetsModule } from './modules/bets/bets.module';
 import { UsersModule } from './modules/users/users.module';
 import { SettlementModule } from './modules/settlement/settlement.module';
+import { WebsocketModule } from './modules/websocket/websocket.module';
 import { SeedModule } from './seeds/seed.module';
 
 @Module({
@@ -67,6 +70,9 @@ import { SeedModule } from './seeds/seed.module';
     // Scheduling for round management
     ScheduleModule.forRoot(),
 
+    // Redis for caching
+    RedisModule,
+
     // Feature modules
     AuthModule,
     MarketsModule,
@@ -74,8 +80,15 @@ import { SeedModule } from './seeds/seed.module';
     UsersModule,
     SettlementModule,
 
+    // WebSocket for real-time updates
+    WebsocketModule,
+
     // Seed module (runs on startup)
     SeedModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

@@ -5,7 +5,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Round, RoundStatus, RoundOutcome } from '../../entities/round.entity';
 import { Bet, BetStatus, BetPosition } from '../../entities/bet.entity';
 import { Market } from '../../entities/market.entity';
-import { PriceService } from './price.service';
+import { PricesService } from '../prices/prices.service';
 import Decimal from 'decimal.js';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class SettlementService {
     private readonly betRepository: Repository<Bet>,
     @InjectRepository(Market)
     private readonly marketRepository: Repository<Market>,
-    private readonly priceService: PriceService,
+    private readonly pricesService: PricesService,
     private readonly dataSource: DataSource,
     private readonly eventEmitter: EventEmitter2,
   ) {}
@@ -30,7 +30,7 @@ export class SettlementService {
     await queryRunner.startTransaction();
 
     try {
-      const lockPrice = await this.priceService.getCurrentPrice(round.market.symbol);
+      const lockPrice = await this.pricesService.getCurrentPrice(round.market.symbol);
 
       round.status = RoundStatus.LOCKED;
       round.lockPrice = lockPrice.toString();
@@ -60,7 +60,7 @@ export class SettlementService {
     await queryRunner.startTransaction();
 
     try {
-      const endPrice = await this.priceService.getCurrentPrice(round.market.symbol);
+      const endPrice = await this.pricesService.getCurrentPrice(round.market.symbol);
       const lockPrice = new Decimal(round.lockPrice!);
       const endPriceDecimal = new Decimal(endPrice);
 
@@ -173,7 +173,7 @@ export class SettlementService {
       settlesAt = new Date(now.getTime() + 15 * 60 * 1000); // 15 min total
     }
 
-    const startPrice = await this.priceService.getCurrentPrice(market.symbol);
+    const startPrice = await this.pricesService.getCurrentPrice(market.symbol);
 
     const round = this.roundRepository.create({
       roundNumber,
