@@ -64,11 +64,11 @@ export function RoundInfo({ round, market }: RoundInfoProps) {
   }, [round]);
 
   const statusConfig = {
-    pending: { icon: Clock, color: 'text-toss-gray-400', bg: 'bg-toss-gray-100', label: '대기 중' },
-    open: { icon: Clock, color: 'text-up', bg: 'bg-green-50', label: '베팅 가능' },
-    locked: { icon: Lock, color: 'text-amber-500', bg: 'bg-amber-50', label: '잠김' },
-    settled: { icon: CheckCircle, color: 'text-primary', bg: 'bg-blue-50', label: '정산 완료' },
-    cancelled: { icon: XCircle, color: 'text-down', bg: 'bg-red-50', label: '취소됨' },
+    pending: { icon: Clock, color: 'text-linear-text-tertiary', bg: 'bg-linear-bg-tertiary', label: '대기 중' },
+    open: { icon: Clock, color: 'text-linear-accent-green', bg: 'bg-linear-accent-green/20', label: '베팅 가능' },
+    locked: { icon: Lock, color: 'text-linear-accent-yellow', bg: 'bg-linear-accent-yellow/20', label: '잠김' },
+    settled: { icon: CheckCircle, color: 'text-linear-accent-blue', bg: 'bg-linear-accent-blue/20', label: '정산 완료' },
+    cancelled: { icon: XCircle, color: 'text-linear-accent-red', bg: 'bg-linear-accent-red/20', label: '취소됨' },
   };
 
   const status = round?.status || 'pending';
@@ -76,13 +76,13 @@ export function RoundInfo({ round, market }: RoundInfoProps) {
   const StatusIcon = config.icon;
 
   return (
-    <div className="toss-card">
+    <div className="linear-card p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <h2 className="text-title-3">
             라운드 #{round?.roundNumber || '-'}
           </h2>
-          <span className={cn('toss-badge', config.bg, config.color)}>
+          <span className={cn('linear-badge', config.bg, config.color)}>
             <StatusIcon className="h-3 w-3 mr-1" />
             {config.label}
           </span>
@@ -91,14 +91,14 @@ export function RoundInfo({ round, market }: RoundInfoProps) {
 
       {/* Timer */}
       {timeLeft && (
-        <div className="bg-toss-gray-50 rounded-toss-sm p-4 mb-4">
-          <p className="text-sm text-toss-gray-500 mb-1">{timeLeft.label}</p>
+        <div className="bg-linear-bg-tertiary rounded-linear p-4 mb-4">
+          <p className="text-sm text-linear-text-tertiary mb-1">{timeLeft.label}</p>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold text-toss-gray-900 tabular-nums">
+            <span className="text-3xl font-semibold text-linear-text-primary tabular-nums">
               {timeLeft.minutes.toString().padStart(2, '0')}
             </span>
-            <span className="text-xl font-bold text-toss-gray-400">:</span>
-            <span className="text-3xl font-bold text-toss-gray-900 tabular-nums">
+            <span className="text-xl font-semibold text-linear-text-quaternary">:</span>
+            <span className="text-3xl font-semibold text-linear-text-primary tabular-nums">
               {timeLeft.seconds.toString().padStart(2, '0')}
             </span>
           </div>
@@ -108,29 +108,29 @@ export function RoundInfo({ round, market }: RoundInfoProps) {
       {/* Info Grid */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <p className="text-xs text-toss-gray-400 mb-1">마켓 유형</p>
-          <p className="text-sm font-medium text-toss-gray-800">
+          <p className="text-xs text-linear-text-quaternary mb-1">마켓 유형</p>
+          <p className="text-sm font-medium text-linear-text-primary">
             {market.marketType === '15min' ? '15분 예측' : '일간 예측'}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-toss-gray-400 mb-1">시작 가격</p>
-          <p className="text-sm font-medium text-toss-gray-800 tabular-nums">
+          <p className="text-xs text-linear-text-quaternary mb-1">시작 가격</p>
+          <p className="text-sm font-medium text-linear-text-primary tabular-nums">
             {round?.startPrice ? `$${parseFloat(round.startPrice).toLocaleString()}` : '-'}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-toss-gray-400 mb-1">잠금 가격</p>
-          <p className="text-sm font-medium text-toss-gray-800 tabular-nums">
+          <p className="text-xs text-linear-text-quaternary mb-1">잠금 가격</p>
+          <p className="text-sm font-medium text-linear-text-primary tabular-nums">
             {round?.lockPrice ? `$${parseFloat(round.lockPrice).toLocaleString()}` : '-'}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-toss-gray-400 mb-1">정산 시간</p>
-          <p className="text-sm font-medium text-toss-gray-800">
+          <p className="text-xs text-linear-text-quaternary mb-1">정산 시간</p>
+          <p className="text-sm font-medium text-linear-text-primary">
             {round?.settlesAt
               ? new Date(round.settlesAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
               : '-'}

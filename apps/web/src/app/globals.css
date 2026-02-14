@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 @tailwind base;
@@ -6,15 +7,32 @@
 
 @layer base {
   :root {
-    --color-primary: #3182F6;
-    --color-up: #34C759;
-    --color-down: #FF3B30;
-    --color-text-primary: #191F28;
-    --color-text-secondary: #6B7684;
-    --color-text-tertiary: #8B95A1;
-    --color-border: #E5E8EB;
-    --color-background: #FFFFFF;
-    --color-background-secondary: #F9FAFB;
+    /* Linear Dark Mode Colors */
+    --linear-bg-primary: #0D0D0D;
+    --linear-bg-secondary: #151515;
+    --linear-bg-tertiary: #1A1A1A;
+    --linear-bg-elevated: #1F1F1F;
+
+    --linear-text-primary: #FFFFFF;
+    --linear-text-secondary: #A0A0A0;
+    --linear-text-tertiary: #6B6B6B;
+    --linear-text-quaternary: #4B4B4B;
+
+    --linear-border: #2A2A2A;
+    --linear-border-subtle: #1F1F1F;
+    --linear-border-focus: #5E5CE6;
+
+    --linear-accent-purple: #5E5CE6;
+    --linear-accent-blue: #0A84FF;
+    --linear-accent-green: #30D158;
+    --linear-accent-red: #FF453A;
+    --linear-accent-yellow: #FFD60A;
+    --linear-accent-orange: #FF9F0A;
+
+    /* Semantic Colors */
+    --color-primary: #5E5CE6;
+    --color-up: #30D158;
+    --color-down: #FF453A;
   }
 
   * {
@@ -24,142 +42,273 @@
   }
 
   html {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: var(--linear-bg-primary);
+    color-scheme: dark;
   }
 
   body {
-    color: var(--color-text-primary);
-    background: var(--color-background-secondary);
+    color: var(--linear-text-primary);
+    background: var(--linear-bg-primary);
     line-height: 1.5;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: rgba(94, 92, 230, 0.3);
+    color: var(--linear-text-primary);
   }
 }
 
 @layer components {
-  /* Toss-style Card */
-  .toss-card {
-    @apply bg-white rounded-toss p-5 shadow-toss-1 transition-all duration-200;
+  /* Linear-style Card */
+  .linear-card {
+    @apply bg-linear-bg-secondary rounded-linear-lg border border-linear-border transition-all duration-200;
   }
 
-  .toss-card:hover {
-    @apply shadow-toss-2;
+  .linear-card-interactive {
+    @apply linear-card cursor-pointer;
   }
 
-  .toss-card-interactive {
-    @apply toss-card cursor-pointer active:scale-[0.98];
+  .linear-card-interactive:hover {
+    @apply bg-linear-bg-tertiary border-linear-border;
   }
 
-  /* Toss-style Button */
-  .toss-btn {
-    @apply inline-flex items-center justify-center font-semibold rounded-toss-sm
-           transition-all duration-200 active:scale-[0.97];
+  .linear-card-interactive:active {
+    @apply scale-[0.99];
   }
 
-  .toss-btn-primary {
-    @apply toss-btn bg-primary text-white hover:bg-toss-blue-600;
+  /* Linear-style Button */
+  .linear-btn {
+    @apply inline-flex items-center justify-center font-medium rounded-linear
+           transition-all duration-150 active:scale-[0.98] select-none;
   }
 
-  .toss-btn-secondary {
-    @apply toss-btn bg-toss-gray-100 text-toss-gray-700 hover:bg-toss-gray-200;
+  .linear-btn-primary {
+    @apply linear-btn bg-linear-accent-purple text-white hover:bg-opacity-90;
   }
 
-  .toss-btn-up {
-    @apply toss-btn bg-up text-white hover:opacity-90;
+  .linear-btn-secondary {
+    @apply linear-btn bg-linear-bg-tertiary text-linear-text-secondary border border-linear-border
+           hover:bg-linear-bg-elevated hover:text-linear-text-primary;
   }
 
-  .toss-btn-down {
-    @apply toss-btn bg-down text-white hover:opacity-90;
+  .linear-btn-ghost {
+    @apply linear-btn bg-transparent text-linear-text-secondary
+           hover:bg-linear-bg-tertiary hover:text-linear-text-primary;
   }
 
-  .toss-btn-outline {
-    @apply toss-btn bg-transparent border border-toss-gray-300 text-toss-gray-700
-           hover:bg-toss-gray-50;
+  .linear-btn-up {
+    @apply linear-btn bg-linear-accent-green text-white hover:bg-opacity-90;
   }
 
-  .toss-btn-sm {
-    @apply px-3 py-2 text-sm;
+  .linear-btn-down {
+    @apply linear-btn bg-linear-accent-red text-white hover:bg-opacity-90;
   }
 
-  .toss-btn-md {
-    @apply px-4 py-3 text-base;
+  .linear-btn-sm {
+    @apply px-3 py-1.5 text-sm;
   }
 
-  .toss-btn-lg {
-    @apply px-6 py-4 text-lg;
+  .linear-btn-md {
+    @apply px-4 py-2 text-sm;
   }
 
-  .toss-btn-full {
+  .linear-btn-lg {
+    @apply px-5 py-2.5 text-base;
+  }
+
+  .linear-btn-full {
     @apply w-full;
   }
 
-  /* Toss-style Input */
-  .toss-input {
-    @apply w-full bg-toss-gray-100 border-0 rounded-toss-sm px-4 py-3.5
-           text-toss-gray-900 placeholder:text-toss-gray-400
-           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-30
-           transition-all duration-200;
+  /* Linear-style Input */
+  .linear-input {
+    @apply w-full bg-linear-bg-tertiary border border-linear-border rounded-linear px-3 py-2
+           text-linear-text-primary placeholder:text-linear-text-tertiary
+           focus:outline-none focus:border-linear-border-focus focus:ring-1 focus:ring-linear-border-focus
+           transition-all duration-150;
   }
 
-  /* Toss-style Badge */
-  .toss-badge {
-    @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium;
+  /* Linear-style Badge */
+  .linear-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
   }
 
-  .toss-badge-blue {
-    @apply toss-badge bg-toss-blue-50 text-toss-blue-600;
+  .linear-badge-purple {
+    @apply linear-badge bg-linear-accent-purple/20 text-linear-accent-purple;
   }
 
-  .toss-badge-gray {
-    @apply toss-badge bg-toss-gray-100 text-toss-gray-600;
+  .linear-badge-blue {
+    @apply linear-badge bg-linear-accent-blue/20 text-linear-accent-blue;
   }
 
-  .toss-badge-green {
-    @apply toss-badge bg-green-50 text-up;
+  .linear-badge-green {
+    @apply linear-badge bg-linear-accent-green/20 text-linear-accent-green;
   }
 
-  .toss-badge-red {
-    @apply toss-badge bg-red-50 text-down;
+  .linear-badge-red {
+    @apply linear-badge bg-linear-accent-red/20 text-linear-accent-red;
+  }
+
+  .linear-badge-yellow {
+    @apply linear-badge bg-linear-accent-yellow/20 text-linear-accent-yellow;
+  }
+
+  .linear-badge-gray {
+    @apply linear-badge bg-linear-bg-tertiary text-linear-text-secondary;
   }
 
   /* Text styles */
   .text-title-1 {
-    @apply text-2xl font-bold text-toss-gray-900;
+    @apply text-2xl font-semibold text-linear-text-primary tracking-tight;
   }
 
   .text-title-2 {
-    @apply text-xl font-bold text-toss-gray-900;
+    @apply text-xl font-semibold text-linear-text-primary tracking-tight;
   }
 
   .text-title-3 {
-    @apply text-lg font-semibold text-toss-gray-900;
+    @apply text-lg font-medium text-linear-text-primary;
   }
 
   .text-body-1 {
-    @apply text-base text-toss-gray-800;
+    @apply text-base text-linear-text-primary;
   }
 
   .text-body-2 {
-    @apply text-sm text-toss-gray-700;
+    @apply text-sm text-linear-text-secondary;
   }
 
   .text-caption {
-    @apply text-xs text-toss-gray-500;
+    @apply text-xs text-linear-text-tertiary;
   }
 
   /* Progress Bar */
-  .toss-progress {
-    @apply h-2 bg-toss-gray-100 rounded-full overflow-hidden;
+  .linear-progress {
+    @apply h-1.5 bg-linear-bg-tertiary rounded-full overflow-hidden;
   }
 
-  .toss-progress-bar {
-    @apply h-full rounded-full transition-all duration-500 ease-out;
+  .linear-progress-bar {
+    @apply h-full rounded-full transition-all duration-300 ease-out;
   }
 
   /* Divider */
-  .toss-divider {
-    @apply h-px bg-toss-gray-200 my-4;
+  .linear-divider {
+    @apply h-px bg-linear-border;
+  }
+
+  /* Sidebar Navigation Item */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-linear text-sm
+           text-linear-text-secondary transition-colors duration-150 cursor-pointer select-none;
+  }
+
+  .sidebar-item:hover {
+    @apply bg-linear-bg-tertiary text-linear-text-primary;
+  }
+
+  .sidebar-item.active {
+    @apply bg-linear-bg-tertiary text-linear-text-primary;
+  }
+
+  .sidebar-item-icon {
+    @apply w-4 h-4 flex-shrink-0;
+  }
+
+  /* Keyboard Shortcut Badge */
+  .kbd {
+    @apply inline-flex items-center justify-center min-w-[20px] h-5 px-1.5
+           bg-linear-bg-tertiary border border-linear-border rounded text-2xs font-medium
+           text-linear-text-tertiary;
+  }
+
+  /* Panel Overlay */
+  .panel-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-40;
+  }
+
+  .panel-slide {
+    @apply fixed top-0 right-0 h-full w-full max-w-md bg-linear-bg-secondary
+           border-l border-linear-border shadow-linear-4 z-50;
+  }
+
+  /* Table Row */
+  .table-row {
+    @apply flex items-center gap-4 px-4 py-3 border-b border-linear-border
+           transition-colors duration-100 cursor-pointer;
+  }
+
+  .table-row:hover {
+    @apply bg-linear-bg-tertiary;
+  }
+
+  .table-row.selected {
+    @apply bg-linear-bg-tertiary;
+  }
+
+  /* Skeleton Shimmer */
+  .skeleton {
+    @apply bg-linear-bg-tertiary rounded;
+    background: linear-gradient(
+      90deg,
+      var(--linear-bg-tertiary) 0%,
+      var(--linear-bg-elevated) 50%,
+      var(--linear-bg-tertiary) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Command Palette */
+  .command-palette {
+    @apply fixed inset-0 flex items-start justify-center pt-[15vh] z-50;
+  }
+
+  .command-palette-overlay {
+    @apply fixed inset-0 bg-black/60 backdrop-blur-sm;
+  }
+
+  .command-palette-content {
+    @apply relative w-full max-w-lg bg-linear-bg-elevated border border-linear-border
+           rounded-linear-lg shadow-linear-4 overflow-hidden;
+  }
+
+  .command-palette-input {
+    @apply w-full bg-transparent border-0 border-b border-linear-border px-4 py-3
+           text-linear-text-primary placeholder:text-linear-text-tertiary
+           focus:outline-none text-base;
+  }
+
+  .command-palette-list {
+    @apply max-h-[60vh] overflow-y-auto py-2;
+  }
+
+  .command-palette-item {
+    @apply flex items-center gap-3 px-4 py-2.5 text-sm text-linear-text-secondary
+           cursor-pointer transition-colors duration-100;
+  }
+
+  .command-palette-item:hover,
+  .command-palette-item[data-selected="true"] {
+    @apply bg-linear-bg-tertiary text-linear-text-primary;
+  }
+
+  .command-palette-item-icon {
+    @apply w-4 h-4 text-linear-text-tertiary;
+  }
+
+  .command-palette-group {
+    @apply px-4 py-2 text-xs font-medium text-linear-text-tertiary uppercase tracking-wider;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs bg-linear-bg-elevated border border-linear-border
+           rounded shadow-linear-2 text-linear-text-primary whitespace-nowrap;
   }
 
   /* Safe area for mobile */
@@ -169,6 +318,87 @@
 
   .safe-area-top {
     padding-top: env(safe-area-inset-top);
+  }
+
+  /* Keep legacy Toss styles for backwards compatibility */
+  .toss-card {
+    @apply linear-card p-5;
+  }
+
+  .toss-card-interactive {
+    @apply linear-card-interactive p-5;
+  }
+
+  .toss-btn {
+    @apply linear-btn;
+  }
+
+  .toss-btn-primary {
+    @apply linear-btn-primary;
+  }
+
+  .toss-btn-secondary {
+    @apply linear-btn-secondary;
+  }
+
+  .toss-btn-up {
+    @apply linear-btn-up;
+  }
+
+  .toss-btn-down {
+    @apply linear-btn-down;
+  }
+
+  .toss-btn-sm {
+    @apply linear-btn-sm;
+  }
+
+  .toss-btn-md {
+    @apply linear-btn-md;
+  }
+
+  .toss-btn-lg {
+    @apply linear-btn-lg;
+  }
+
+  .toss-btn-full {
+    @apply linear-btn-full;
+  }
+
+  .toss-input {
+    @apply linear-input;
+  }
+
+  .toss-badge {
+    @apply linear-badge;
+  }
+
+  .toss-badge-blue {
+    @apply linear-badge-blue;
+  }
+
+  .toss-badge-gray {
+    @apply linear-badge-gray;
+  }
+
+  .toss-badge-green {
+    @apply linear-badge-green;
+  }
+
+  .toss-badge-red {
+    @apply linear-badge-red;
+  }
+
+  .toss-progress {
+    @apply linear-progress;
+  }
+
+  .toss-progress-bar {
+    @apply linear-progress-bar;
+  }
+
+  .toss-divider {
+    @apply linear-divider my-4;
   }
 }
 
@@ -192,6 +422,11 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Focus visible ring */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-linear-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-linear-bg-primary;
+  }
 }
 
 /* Custom scrollbar for desktop */
@@ -202,16 +437,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #F2F4F6;
+    background: var(--linear-bg-secondary);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #D1D6DB;
+    background: var(--linear-border);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #B0B8C1;
+    background: var(--linear-text-quaternary);
   }
 }

@@ -39,30 +39,30 @@ export function RoundHistory({ symbol }: RoundHistoryProps) {
   const outcomeConfig = {
     up: {
       icon: TrendingUp,
-      color: 'text-up',
-      bg: 'bg-green-50',
+      color: 'text-linear-accent-green',
+      bg: 'bg-linear-accent-green/20',
       label: 'UP',
     },
     down: {
       icon: TrendingDown,
-      color: 'text-down',
-      bg: 'bg-red-50',
+      color: 'text-linear-accent-red',
+      bg: 'bg-linear-accent-red/20',
       label: 'DOWN',
     },
     none: {
       icon: Minus,
-      color: 'text-toss-gray-400',
-      bg: 'bg-toss-gray-100',
+      color: 'text-linear-text-tertiary',
+      bg: 'bg-linear-bg-tertiary',
       label: '무승부',
     },
   };
 
   if (!rounds || rounds.length === 0) {
     return (
-      <div className="toss-card">
+      <div className="linear-card p-5">
         <h3 className="text-title-3 mb-4">최근 라운드</h3>
-        <div className="flex flex-col items-center justify-center py-10 text-toss-gray-400">
-          <div className="w-12 h-12 bg-toss-gray-100 rounded-full flex items-center justify-center mb-2">
+        <div className="flex flex-col items-center justify-center py-10 text-linear-text-tertiary">
+          <div className="w-12 h-12 bg-linear-bg-tertiary rounded-full flex items-center justify-center mb-2">
             <Clock className="h-6 w-6" />
           </div>
           <p className="text-sm font-medium">아직 정산된 라운드가 없습니다</p>
@@ -72,10 +72,10 @@ export function RoundHistory({ symbol }: RoundHistoryProps) {
   }
 
   return (
-    <div className="toss-card">
+    <div className="linear-card p-5">
       <h3 className="text-title-3 mb-4">최근 라운드</h3>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {rounds.map((round) => {
           const config = outcomeConfig[round.outcome] || outcomeConfig.none;
           const OutcomeIcon = config.icon;
@@ -87,7 +87,7 @@ export function RoundHistory({ symbol }: RoundHistoryProps) {
           return (
             <div
               key={round.id}
-              className="flex items-center justify-between p-3 bg-toss-gray-50 rounded-toss-sm hover:bg-toss-gray-100 transition-colors"
+              className="flex items-center justify-between p-3 bg-linear-bg-tertiary rounded-linear hover:bg-linear-bg-elevated transition-colors"
             >
               <div className="flex items-center gap-3">
                 <div className={cn(
@@ -98,17 +98,17 @@ export function RoundHistory({ symbol }: RoundHistoryProps) {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-toss-gray-900">
+                    <span className="font-medium text-linear-text-primary">
                       #{round.roundNumber}
                     </span>
-                    <span className={cn('toss-badge', config.bg, config.color)}>
+                    <span className={cn('linear-badge', config.bg, config.color)}>
                       {config.label}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-toss-gray-500">
+                  <div className="flex items-center gap-2 text-xs text-linear-text-tertiary">
                     <span className="tabular-nums">${lockPrice.toLocaleString()}</span>
                     <span>→</span>
-                    <span className={cn('tabular-nums', priceChange >= 0 ? 'text-up' : 'text-down')}>
+                    <span className={cn('tabular-nums', priceChange >= 0 ? 'text-linear-accent-green' : 'text-linear-accent-red')}>
                       ${endPrice.toLocaleString()}
                       <span className="ml-1">
                         ({priceChange >= 0 ? '+' : ''}{priceChange.toFixed(2)}%)
@@ -119,10 +119,10 @@ export function RoundHistory({ symbol }: RoundHistoryProps) {
               </div>
 
               <div className="text-right">
-                <p className="text-sm font-medium text-toss-gray-900 tabular-nums">
+                <p className="text-sm font-medium text-linear-text-primary tabular-nums">
                   {totalPool.toFixed(4)} ETH
                 </p>
-                <p className="text-xs text-toss-gray-400">
+                <p className="text-xs text-linear-text-quaternary">
                   {round.settledAt
                     ? formatDistanceToNow(new Date(round.settledAt), {
                         addSuffix: true,

@@ -6,10 +6,47 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Toss-inspired color palette
+        // Linear-inspired dark mode color palette
+        linear: {
+          bg: {
+            primary: '#0D0D0D',      // 메인 배경
+            secondary: '#151515',    // 카드 배경
+            tertiary: '#1A1A1A',     // 호버 상태
+            elevated: '#1F1F1F',     // 모달/패널
+          },
+          text: {
+            primary: '#FFFFFF',
+            secondary: '#A0A0A0',
+            tertiary: '#6B6B6B',
+            quaternary: '#4B4B4B',
+          },
+          border: {
+            DEFAULT: '#2A2A2A',
+            subtle: '#1F1F1F',
+            focus: '#5E5CE6',
+          },
+          accent: {
+            purple: '#5E5CE6',
+            blue: '#0A84FF',
+            green: '#30D158',
+            red: '#FF453A',
+            yellow: '#FFD60A',
+            orange: '#FF9F0A',
+          },
+        },
+        // Semantic colors
+        primary: '#5E5CE6',
+        secondary: '#A0A0A0',
+        success: '#30D158',
+        warning: '#FFD60A',
+        error: '#FF453A',
+        up: '#30D158',
+        down: '#FF453A',
+        // Keep Toss grays for backwards compatibility
         toss: {
           blue: {
             50: '#E8F3FF',
@@ -17,7 +54,7 @@ const config: Config = {
             200: '#90C2FF',
             300: '#64A8FF',
             400: '#4593FC',
-            500: '#3182F6', // Primary blue
+            500: '#3182F6',
             600: '#2272EB',
             700: '#1B64DA',
             800: '#1957C2',
@@ -36,23 +73,10 @@ const config: Config = {
             900: '#191F28',
           },
         },
-        // Semantic colors
-        primary: '#3182F6',
-        secondary: '#6B7684',
-        success: '#34C759',
-        warning: '#FF9F0A',
-        error: '#FF3B30',
-        up: '#34C759',
-        down: '#FF3B30',
-        // Background colors
-        background: {
-          DEFAULT: '#FFFFFF',
-          secondary: '#F9FAFB',
-          tertiary: '#F2F4F6',
-        },
       },
       fontFamily: {
         sans: [
+          'Inter',
           'Pretendard',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -63,9 +87,6 @@ const config: Config = {
           'Apple SD Gothic Neo',
           'Noto Sans KR',
           'Malgun Gothic',
-          'Apple Color Emoji',
-          'Segoe UI Emoji',
-          'Segoe UI Symbol',
           'sans-serif',
         ],
       },
@@ -81,24 +102,38 @@ const config: Config = {
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
       },
       borderRadius: {
+        'linear': '8px',
+        'linear-sm': '6px',
+        'linear-lg': '12px',
+        'linear-xl': '16px',
         'toss': '16px',
         'toss-sm': '12px',
         'toss-lg': '20px',
         'toss-xl': '24px',
       },
       boxShadow: {
+        'linear-1': '0 1px 2px rgba(0, 0, 0, 0.3)',
+        'linear-2': '0 4px 8px rgba(0, 0, 0, 0.4)',
+        'linear-3': '0 8px 16px rgba(0, 0, 0, 0.5)',
+        'linear-4': '0 16px 32px rgba(0, 0, 0, 0.6)',
+        'linear-glow': '0 0 20px rgba(94, 92, 230, 0.3)',
         'toss-1': '0 2px 8px rgba(0, 0, 0, 0.08)',
         'toss-2': '0 4px 16px rgba(0, 0, 0, 0.08)',
         'toss-3': '0 8px 24px rgba(0, 0, 0, 0.12)',
         'toss-4': '0 12px 32px rgba(0, 0, 0, 0.14)',
       },
       animation: {
-        'fade-in': 'fadeIn 0.2s ease-out',
-        'fade-up': 'fadeUp 0.3s ease-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'slide-down': 'slideDown 0.3s ease-out',
-        'scale-in': 'scaleIn 0.2s ease-out',
+        'fade-in': 'fadeIn 0.15s ease-out',
+        'fade-up': 'fadeUp 0.2s ease-out',
+        'slide-up': 'slideUp 0.2s ease-out',
+        'slide-down': 'slideDown 0.2s ease-out',
+        'slide-left': 'slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        'slide-right': 'slideRight 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        'scale-in': 'scaleIn 0.15s ease-out',
         'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+        'shimmer': 'shimmer 2s infinite',
+        'number-up': 'numberUp 0.3s ease-out',
+        'number-down': 'numberDown 0.3s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -106,7 +141,7 @@ const config: Config = {
           '100%': { opacity: '1' },
         },
         fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         slideUp: {
@@ -117,6 +152,14 @@ const config: Config = {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(0)' },
         },
+        slideLeft: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideRight: {
+          '0%': { transform: 'translateX(-100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
         scaleIn: {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
@@ -125,11 +168,27 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
         },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        numberUp: {
+          '0%': { opacity: '0', transform: 'translateY(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        numberDown: {
+          '0%': { opacity: '0', transform: 'translateY(-4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       spacing: {
         '18': '4.5rem',
+        '68': '17rem',
         '88': '22rem',
         '128': '32rem',
+      },
+      transitionTimingFunction: {
+        'linear-ease': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },

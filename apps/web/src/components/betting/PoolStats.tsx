@@ -32,24 +32,24 @@ export function PoolStats({ round }: PoolStatsProps) {
     : '-';
 
   return (
-    <div className="toss-card">
+    <div className="linear-card p-5">
       <h3 className="text-title-3 mb-4">풀 현황</h3>
 
       {/* Pool Bar */}
       <div className="mb-6">
         <div className="flex justify-between text-sm mb-2">
-          <span className="flex items-center gap-1 text-up font-medium">
+          <span className="flex items-center gap-1 text-linear-accent-green font-medium">
             <TrendingUp className="h-4 w-4" />
             UP {upPercentage.toFixed(0)}%
           </span>
-          <span className="flex items-center gap-1 text-down font-medium">
+          <span className="flex items-center gap-1 text-linear-accent-red font-medium">
             DOWN {(100 - upPercentage).toFixed(0)}%
             <TrendingDown className="h-4 w-4" />
           </span>
         </div>
-        <div className="h-3 bg-down/20 rounded-full overflow-hidden">
+        <div className="h-3 bg-linear-accent-red/20 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-up to-emerald-400 transition-all duration-500"
+            className="h-full bg-gradient-to-r from-linear-accent-green to-emerald-400 transition-all duration-500"
             style={{ width: `${upPercentage}%` }}
           />
         </div>
@@ -58,54 +58,54 @@ export function PoolStats({ round }: PoolStatsProps) {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4">
         {/* UP Stats */}
-        <div className="bg-green-50 rounded-toss-sm p-4">
-          <div className="flex items-center gap-2 text-up font-medium mb-3">
-            <div className="w-8 h-8 bg-up rounded-full flex items-center justify-center">
+        <div className="bg-linear-accent-green/10 border border-linear-accent-green/20 rounded-linear-lg p-4">
+          <div className="flex items-center gap-2 text-linear-accent-green font-medium mb-3">
+            <div className="w-8 h-8 bg-linear-accent-green rounded-full flex items-center justify-center">
               <TrendingUp className="h-4 w-4 text-white" />
             </div>
             <span>UP 풀</span>
           </div>
-          <p className="text-xl font-bold text-toss-gray-900 tabular-nums mb-1">
-            {totalUpPool.toFixed(4)} <span className="text-sm font-medium text-toss-gray-500">ETH</span>
+          <p className="text-xl font-semibold text-linear-text-primary tabular-nums mb-1">
+            {totalUpPool.toFixed(4)} <span className="text-sm font-medium text-linear-text-tertiary">ETH</span>
           </p>
-          <p className="text-xs text-toss-gray-500 flex items-center gap-1 mb-3">
+          <p className="text-xs text-linear-text-tertiary flex items-center gap-1 mb-3">
             <Users className="h-3 w-3" />
             {round?.upCount || 0}명 참여
           </p>
-          <div className="pt-3 border-t border-green-100">
-            <p className="text-xs text-toss-gray-400">예상 배율</p>
-            <p className="text-lg font-bold text-up">{upMultiplier}x</p>
+          <div className="pt-3 border-t border-linear-accent-green/20">
+            <p className="text-xs text-linear-text-quaternary">예상 배율</p>
+            <p className="text-lg font-semibold text-linear-accent-green">{upMultiplier}x</p>
           </div>
         </div>
 
         {/* DOWN Stats */}
-        <div className="bg-red-50 rounded-toss-sm p-4">
-          <div className="flex items-center gap-2 text-down font-medium mb-3">
-            <div className="w-8 h-8 bg-down rounded-full flex items-center justify-center">
+        <div className="bg-linear-accent-red/10 border border-linear-accent-red/20 rounded-linear-lg p-4">
+          <div className="flex items-center gap-2 text-linear-accent-red font-medium mb-3">
+            <div className="w-8 h-8 bg-linear-accent-red rounded-full flex items-center justify-center">
               <TrendingDown className="h-4 w-4 text-white" />
             </div>
             <span>DOWN 풀</span>
           </div>
-          <p className="text-xl font-bold text-toss-gray-900 tabular-nums mb-1">
-            {totalDownPool.toFixed(4)} <span className="text-sm font-medium text-toss-gray-500">ETH</span>
+          <p className="text-xl font-semibold text-linear-text-primary tabular-nums mb-1">
+            {totalDownPool.toFixed(4)} <span className="text-sm font-medium text-linear-text-tertiary">ETH</span>
           </p>
-          <p className="text-xs text-toss-gray-500 flex items-center gap-1 mb-3">
+          <p className="text-xs text-linear-text-tertiary flex items-center gap-1 mb-3">
             <Users className="h-3 w-3" />
             {round?.downCount || 0}명 참여
           </p>
-          <div className="pt-3 border-t border-red-100">
-            <p className="text-xs text-toss-gray-400">예상 배율</p>
-            <p className="text-lg font-bold text-down">{downMultiplier}x</p>
+          <div className="pt-3 border-t border-linear-accent-red/20">
+            <p className="text-xs text-linear-text-quaternary">예상 배율</p>
+            <p className="text-lg font-semibold text-linear-accent-red">{downMultiplier}x</p>
           </div>
         </div>
       </div>
 
       {/* Total Pool */}
-      <div className="mt-4 pt-4 border-t border-toss-gray-100">
+      <div className="mt-4 pt-4 border-t border-linear-border">
         <div className="flex justify-between items-center">
-          <span className="text-sm text-toss-gray-500">총 예치금</span>
-          <span className="text-xl font-bold text-toss-gray-900 tabular-nums">
-            {totalPool.toFixed(4)} <span className="text-sm font-medium text-toss-gray-500">ETH</span>
+          <span className="text-sm text-linear-text-tertiary">총 예치금</span>
+          <span className="text-xl font-semibold text-linear-text-primary tabular-nums">
+            {totalPool.toFixed(4)} <span className="text-sm font-medium text-linear-text-tertiary">ETH</span>
           </span>
         </div>
       </div>
