@@ -46,3 +46,9 @@ pnpm-debug.log*
 # Misc
 *.tsbuildinfo
 .eslintcache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+prediction_market.db
