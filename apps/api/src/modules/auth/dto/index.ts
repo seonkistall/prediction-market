@@ -26,5 +26,6 @@ export class AuthResponseDto {
     id: string;
     walletAddress: string;
     balance: string;
+    role: string;
   };
 }

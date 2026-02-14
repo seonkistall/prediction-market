@@ -8,8 +8,11 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ethers } from 'ethers';
 import { randomBytes } from 'crypto';
-import { User } from '../../entities/user.entity';
+import { User, UserRole } from '../../entities/user.entity';
 import { VerifySignatureDto, AuthResponseDto } from './dto';
+
+// Development: First user becomes admin
+const DEV_ADMIN_ENABLED = process.env.NODE_ENV !== 'production';
 
 @Injectable()
 export class AuthService {
@@ -36,9 +39,19 @@ export class AuthService {
       user.nonce = nonce;
       await this.userRepository.save(user);
     } else {
+      // In development, first user becomes admin
+      let role = UserRole.USER;
+      if (DEV_ADMIN_ENABLED) {
+        const userCount = await this.userRepository.count();
+        if (userCount === 0) {
+          role = UserRole.ADMIN;
+        }
+      }
+
       user = this.userRepository.create({
         walletAddress: normalizedAddress,
         nonce,
+        role,
       });
       await this.userRepository.save(user);
     }
@@ -73,7 +86,7 @@ export class AuthService {
     user.nonce = randomBytes(16).toString('hex');
     await this.userRepository.save(user);
 
-    const payload = { sub: user.id, wallet: user.walletAddress };
+    const payload = { sub: user.id, wallet: user.walletAddress, role: user.role };
     const accessToken = this.jwtService.sign(payload);
 
     return {
@@ -82,6 +95,7 @@ export class AuthService {
         id: user.id,
         walletAddress: user.walletAddress,
         balance: user.balance,
+        role: user.role,
       },
     };
   }
