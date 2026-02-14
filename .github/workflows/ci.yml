@@ -134,7 +134,7 @@ jobs:
       DB_DATABASE: prediction_market_test
       REDIS_HOST: localhost
       REDIS_PORT: 6379
-      JWT_SECRET: test-jwt-secret
+      JWT_SECRET: test-jwt-secret-minimum-32-characters-long
 
     steps:
       - name: Checkout

@@ -1,14 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { WinstonModule } from 'nest-winston';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
+import { SentryInterceptor } from './common/sentry/sentry.interceptor';
+import { SentryService } from './common/sentry/sentry.service';
+import { winstonConfig } from './common/logger/winston.config';
+import { MetricsInterceptor } from './modules/metrics/metrics.interceptor';
+import { MetricsService } from './modules/metrics/metrics.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
   const isProduction = process.env.NODE_ENV === 'production';
+
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger(winstonConfig(isProduction)),
+  });
 
   // Security Headers with Helmet
   app.use(
@@ -37,11 +45,21 @@ async function bootstrap() {
     maxAge: 86400, // 24 hours
   });
 
-  // Global prefix
-  app.setGlobalPrefix('api/v1');
+  // Global prefix (exclude health and metrics endpoints for load balancers/Prometheus)
+  app.setGlobalPrefix('api/v1', {
+    exclude: ['health', 'health/live', 'health/ready', 'metrics'],
+  });
 
   // Global Exception Filter
   app.useGlobalFilters(new GlobalExceptionFilter());
+
+  // Sentry Interceptor for error tracking
+  const sentryService = app.get(SentryService);
+  app.useGlobalInterceptors(new SentryInterceptor(sentryService));
+
+  // Metrics Interceptor for Prometheus
+  const metricsService = app.get(MetricsService);
+  app.useGlobalInterceptors(new MetricsInterceptor(metricsService));
 
   // Validation
   app.useGlobalPipes(
@@ -71,10 +89,11 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   await app.listen(port);
 
-  console.log(`Server running on http://localhost:${port}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  const logger = new Logger('Bootstrap');
+  logger.log(`Server running on http://localhost:${port}`);
+  logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   if (!isProduction) {
-    console.log(`Swagger docs at http://localhost:${port}/docs`);
+    logger.log(`Swagger docs at http://localhost:${port}/docs`);
   }
 }
 

@@ -14,9 +14,11 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typecheck": "tsc --noEmit",
-    "db:migrate": "typeorm migration:run -d ./src/config/typeorm.config.ts",
-    "db:migrate:generate": "typeorm migration:generate -d ./src/config/typeorm.config.ts",
-    "db:migrate:revert": "typeorm migration:revert -d ./src/config/typeorm.config.ts"
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/config/typeorm.config.ts",
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/config/typeorm.config.ts",
+    "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/config/typeorm.config.ts",
+    "migration:show": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:show -d ./src/config/typeorm.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.0",
@@ -36,6 +38,13 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "decimal.js": "^10.4.3",
+    "dotenv": "^16.3.1",
+    "@nestjs/terminus": "^10.2.0",
+    "@sentry/node": "^7.100.0",
+    "nest-winston": "^1.9.4",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "prom-client": "^15.1.0",
     "ethers": "^6.10.0",
     "ioredis": "^5.3.2",
     "passport": "^0.7.0",

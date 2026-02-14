@@ -152,6 +152,23 @@ export class RedisService implements OnModuleDestroy {
     }
   }
 
+  async ping(): Promise<boolean> {
+    try {
+      if (this.redis && this.redis.status === 'ready') {
+        const result = await this.redis.ping();
+        return result === 'PONG';
+      }
+      // Memory cache is always available
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  isUsingMemoryCache(): boolean {
+    return !this.redis || this.redis.status !== 'ready';
+  }
+
   // Cache key generators
   static keys = {
     markets: () => 'markets:list',
