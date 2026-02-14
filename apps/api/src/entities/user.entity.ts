@@ -8,6 +8,11 @@ import {
 } from 'typeorm';
 import { Bet } from './bet.entity';
 
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -21,6 +26,9 @@ export class User {
 
   @Column({ type: 'varchar', length: 20, default: 'active' })
   status: 'active' | 'suspended';
+
+  @Column({ type: 'varchar', length: 20, default: UserRole.USER })
+  role: UserRole;
 
   @Column({ type: 'text', default: '0' })
   balance: string;

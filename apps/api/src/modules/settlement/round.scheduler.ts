@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { OnEvent } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SettlementService } from './settlement.service';
@@ -21,6 +22,29 @@ export class RoundScheduler implements OnModuleInit {
     this.logger.log('Round scheduler initialized');
     // Initialize rounds for active markets on startup
     await this.initializeRounds();
+  }
+
+  @OnEvent('market.created')
+  async handleMarketCreated(payload: { marketId: string; symbol: string }) {
+    this.logger.log(`New market created: ${payload.symbol}, creating first round...`);
+
+    const market = await this.marketRepository.findOne({
+      where: { id: payload.marketId },
+    });
+
+    if (!market || !market.isActive) {
+      return;
+    }
+
+    const currentRound = await this.roundsService.findCurrentRound(market.id);
+    if (!currentRound) {
+      try {
+        await this.settlementService.createNextRound(market);
+        this.logger.log(`First round created for ${market.symbol}`);
+      } catch (error) {
+        this.logger.error(`Failed to create first round for ${market.symbol}`, error);
+      }
+    }
   }
 
   private async initializeRounds() {

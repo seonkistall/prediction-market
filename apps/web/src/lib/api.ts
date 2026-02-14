@@ -32,3 +32,41 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Admin API functions
+export interface CreateMarketDto {
+  symbol: string;
+  name: string;
+  category: 'crypto' | 'kospi';
+  marketType: '15min' | 'daily';
+  minBet: string;
+  maxBet: string;
+  feeRate?: string;
+}
+
+export interface UpdateMarketDto {
+  name?: string;
+  minBet?: string;
+  maxBet?: string;
+  feeRate?: string;
+  isActive?: boolean;
+}
+
+export interface Market {
+  id: string;
+  symbol: string;
+  name: string;
+  category: 'crypto' | 'kospi';
+  marketType: '15min' | 'daily';
+  minBet: string;
+  maxBet: string;
+  feeRate: string;
+  isActive: boolean;
+}
+
+export const adminApi = {
+  createMarket: (data: CreateMarketDto) => api.post<Market>('/markets', data),
+  updateMarket: (id: string, data: UpdateMarketDto) => api.put<Market>(`/markets/${id}`, data),
+  toggleMarketActive: (id: string) => api.patch<Market>(`/markets/${id}/toggle-active`),
+  getAllMarkets: () => api.get<Market[]>('/markets/admin/all'),
+};
